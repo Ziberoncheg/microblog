@@ -14,31 +14,31 @@ def loginpage(request):
 #@csrf_exempt
 def register(request):
     args = {}
-    #try:
-    d1_1 = int(request.POST.get('YY', ''))
-    d1_2 = int(request.POST.get('MM', ''))
-    d1_3 = int(request.POST.get('DD', ''))
-    user = MyUser.objects.create_user(request.POST.get('email', ''),datetime.date(d1_1,d1_2,d1_3),
-                                      request.POST.get('country', ''),request.POST.get('city', ''),
-                                      request.POST.get('password', ''))
-    ua_code = "%s" % random.randrange(1,9999999999999999999999999999)
-    user.activation_code = ua_code
-    user.date_of_birth =datetime.date(d1_1,d1_2,d1_3)
-    user.city = request.POST.get('city', '')
-    user.country = request.POST.get('country', '')
-    user.save()
-    args['message'] = "New user created. Please confirm your email adress"
-    send_mail(
-        'Activation account',
-        'For activation your account click at link https://ziberon.herokuapp.com/auth/activation/%s' % ua_code,
-        'from@example.com',
-        ['%s' % request.POST.get('email', '')],
-        fail_silently=False,
-    )
-    return render(request, "loginpage.html", args)
-    #except:
-    #    args['message'] = "User is already registered or incorrectly filled in fields"
-    #    return render(request,"loginpage.html", args)
+    try:
+        d1_1 = int(request.POST.get('YY', ''))
+        d1_2 = int(request.POST.get('MM', ''))
+        d1_3 = int(request.POST.get('DD', ''))
+        user = MyUser.objects.create_user(request.POST.get('email', ''),datetime.date(d1_1,d1_2,d1_3),
+                                          request.POST.get('country', ''),request.POST.get('city', ''),
+                                          request.POST.get('password', ''))
+        ua_code = "%s" % random.randrange(1,9999999999999999999999999999)
+        user.activation_code = ua_code
+        user.date_of_birth =datetime.date(d1_1,d1_2,d1_3)
+        user.city = request.POST.get('city', '')
+        user.country = request.POST.get('country', '')
+        user.save()
+        args['message'] = "New user created. Please confirm your email adress"
+        send_mail(
+            'Activation account',
+            'For activation your account click at link https://ziberon.herokuapp.com/auth/activation/%s' % ua_code,
+            'from@example.com',
+            ['%s' % request.POST.get('email', '')],
+            fail_silently=False,
+        )
+        return render(request, "loginpage.html", args)
+    except:
+       args['message'] = "User is already registered or incorrectly filled in fields"
+       return render(request,"loginpage.html", args)
 
 
 
