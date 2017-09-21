@@ -25,7 +25,7 @@ SECRET_KEY = '!$1nqv63cnjs(k5-tnvc^v0e(q7fhibtt-*5b&m(4yba=xy==0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ziberon.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['desolate-cove-86210.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
