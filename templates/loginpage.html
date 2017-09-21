@@ -1,0 +1,42 @@
+{% extends "main.html" %}
+{% load static %}
+{% load staticfiles %}
+
+{% block sidebar %}
+<div id="sidebar">
+    <h2 style="color: #fdfdfd;">Log in</h2>
+    <form method="post" action="/auth/login">
+        {% csrf_token %}
+        <p>Email</p>
+        <input type="text" name="email" id="email">
+        <p>Password</p>
+        <input type="password" name="password" id="password">
+        <button type="submit" class="button" style="margin-top: 5px">Login</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block content %}
+
+        <h2 style="color: #b93653">{{ message }}</h2>
+        <article class="is-post is-post-excerpt">
+        <h2>Registration</h2>
+        <form action="/auth/register" method="post">
+            {% csrf_token %}
+            <p>Email</p>
+            <input type="text" name="email" id="email">
+            <p>Country</p>
+            <input type="text" name="country" id="country">
+            <p>City</p>
+            <input type="text" name="city" id="city">
+            <p>Date of birthday</p>
+            <input type="text" name="YY" id="YY" value="2017">
+            <input type="text" name="MM" id="MM" value="03">
+            <input type="text" name="DD" id="DD" value="26">
+            <p>Password</p>
+            <input type="password" name="password" id="password">
+        <button type="submit" class="button" style="margin-top: 5px">Register</button>
+        </form>
+       </article>
+
+{% endblock %}

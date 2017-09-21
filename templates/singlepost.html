@@ -1,0 +1,63 @@
+{% extends "main.html" %}
+{% load static %}
+{% load staticfiles %}
+
+{% block sidebar %}
+<div id="sidebar">
+    <h2 style="color: #fdfdfd;">Dmytro Kudymets</h2>
+    <a href="/auth/logout">logout</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+        <article class="is-post is-post-excerpt">
+        <header>
+          <h2><a href="/post/{{ data.id }}">{{ data.post_title }}</a></h2>
+          <span class="byline">{{ data.post_authors }}</span> </header>
+        <div class="info"> <span class="date"><span class="month">{{ data.post_create_date|date:"M" }}</span> <span class="day">{{ data.post_create_date|date:"d" }}</span></span>
+          <ul class="stats">
+            <li><a href="/likedislike/{{ data.id }}" class="link-icon24 link-icon24-2">{{ data.get_likes }}</a></li>
+          </ul>
+        </div>
+        <a href="#" class="image image-full"><img src="/media/{{ data.post_photo }}" alt=""></a>
+        <p>{{ data.post_description }}</p>
+       </article>
+    <form action="/sendcomment/{{ data.id }}" method="post">
+        {% csrf_token %}
+    <input type="text" name="text" id="text" height="5">
+    <button class="button" style="margin-top: 5px;" type="submit">Send comment</button>
+    </form>
+    {% for i in comments %}
+        <b>{{ i.comments_author }}</b>
+        <p>{{ i.comments_text }}</p>
+    {% endfor %}
+
+
+    {% if comments.has_other_pages %}
+
+ <div class="pager">
+    {% if comments.has_previous %}
+      <a class="button previous" href="?page={{ comments.previous_page_number }}">&laquo;</a>
+
+    {% endif %}
+   <div class="pages">
+    {% for i in comments.paginator.page_range %}
+      {% if comments.number == i %}
+        <a class="active">{{ i }} </a>
+      {% else %}
+        <a href="?page={{ i }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+   </div>
+    {% if comments.has_next %}
+      <a class="button next" href="?page={{ comments.next_page_number }}">&raquo;</a></li>
+
+    {% endif %}
+   </div>
+{% endif %}
+{% endblock %}
+
+
+

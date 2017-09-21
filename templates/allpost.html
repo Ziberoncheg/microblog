@@ -1,0 +1,142 @@
+{% extends "main.html" %}
+{% load static %}
+{% load staticfiles %}
+
+{% block sidebar %}
+    <div id="sidebar">
+    <h2 style="color: #fdfdfd;">Dmytro Kudymets</h2>
+        <a href="/auth/logout">logout</a>
+    <section>
+    <form method="get" action="/">
+        <input class="text" style="margin-bottom: 6px;" type="text" name="country" id="country">
+        <button class="button" type="submit">Search by country</button>
+    </form>
+    </section>
+    <section>
+    <form method="get" action="/">
+        <input class="text" style="margin-bottom: 6px;" type="text" name="search" id="search">
+        <button class="button" type="submit">Search by keyword</button>
+    </form>
+    </section>
+    <section>
+    <form method="get" action="/">
+        <input class="text" style="margin-bottom: 6px;" type="text" name="city" id="city">
+        <button class="button" type="submit">Search by city</button>
+    </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block content %}
+
+     {% for post in data %}
+          <article class="is-post is-post-excerpt">
+        <header>
+          <h2><a href="/post/{{ post.id }}">{{ post.post_title }}</a></h2>
+          <span class="byline">{{ post.post_authors }}</span> </header>
+        <div class="info"> <span class="date"><span class="month">{{ post.post_create_date|date:"M" }}</span> <span class="day">{{ post.post_create_date|date:"d" }}</span></span>
+          <ul class="stats">
+            <li><a href="/likedislike/{{ post.id }}" class="link-icon24 link-icon24-2">{{ post.get_likes }}</a></li>
+          </ul>
+        </div>
+        <a href="#" class="image image-full"><img src="/media/{{ post.post_photo }}" alt=""></a>
+       </article>
+      <!--<div class="pager">
+        <a href="#" class="button previous">Previous Page</a>
+        <div class="pages"> <a href="#" class="active">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <span>&hellip;</span> <a href="#">20</a> </div>
+        <a href="#" class="button next">Next Page</a> </div>-->
+
+
+    {% endfor %}
+
+    {% if data.has_other_pages %}
+        {% if query %}
+  <div class="pager">
+    {% if data.has_previous %}
+      <a class="button previous" href="?page={{ data.previous_page_number }}&search={{ query }}">&laquo;</a>
+
+    {% endif %}
+   <div class="pages">
+    {% for i in data.paginator.page_range %}
+      {% if data.number == i %}
+        <a class="active">{{ i }} </a>
+      {% else %}
+        <a href="?page={{ i }}&search={{ query }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+   </div>
+    {% if data.has_next %}
+      <a class="button next" href="?page={{ data.next_page_number }}&search={{ query }}">&raquo;</a></li>
+
+    {% endif %}
+   </div>
+
+             {% elif city %}
+  <div class="pager">
+    {% if data.has_previous %}
+      <a class="button previous" href="?page={{ data.previous_page_number }}&city={{ city }}">&laquo;</a>
+
+    {% endif %}
+   <div class="pages">
+    {% for i in data.paginator.page_range %}
+      {% if data.number == i %}
+        <a class="active">{{ i }} </a>
+      {% else %}
+        <a href="?page={{ i }}&city={{ city }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+   </div>
+    {% if data.has_next %}
+      <a class="button next" href="?page={{ data.next_page_number }}&city={{ city }}">&raquo;</a></li>
+
+    {% endif %}
+   </div>
+
+            {% elif country %}
+    <div class="pager">
+    {% if data.has_previous %}
+      <a class="button previous" href="?page={{ data.previous_page_number }}&country={{ country }}">&laquo;</a>
+
+    {% endif %}
+   <div class="pages">
+    {% for i in data.paginator.page_range %}
+      {% if data.number == i %}
+        <a class="active">{{ i }} </a>
+      {% else %}
+        <a href="?page={{ i }}&country={{ country }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+   </div>
+    {% if data.has_next %}
+      <a class="button next" href="?page={{ data.next_page_number }}&country={{ country }}">&raquo;</a></li>
+
+    {% endif %}
+   </div>
+
+            {% else %}
+           <div class="pager">
+    {% if data.has_previous %}
+      <a class="button previous" href="?page={{ data.previous_page_number }}">&laquo;</a>
+
+    {% endif %}
+   <div class="pages">
+    {% for i in data.paginator.page_range %}
+      {% if data.number == i %}
+        <a class="active">{{ i }} </a>
+      {% else %}
+        <a href="?page={{ i }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+   </div>
+    {% if data.has_next %}
+      <a class="button next" href="?page={{ data.next_page_number }}">&raquo;</a></li>
+
+    {% endif %}
+   </div>
+            {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+
+
