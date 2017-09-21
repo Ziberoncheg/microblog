@@ -30,7 +30,7 @@ def register(request):
         args['message'] = "New user created. Please confirm your email adress"
         send_mail(
             'Activation account',
-            'For activation your account click at link https://ziberon.herokuapp.com/auth/activation/%s' % ua_code,
+            'For activation your account click at link https://desolate-cove-86210.herokuapp.com/auth/activation/%s' % ua_code,
             'from@example.com',
             ['%s' % request.POST.get('email', '')],
             fail_silently=False,
